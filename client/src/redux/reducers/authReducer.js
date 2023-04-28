@@ -1,4 +1,5 @@
 // authReducer.js
+
 import {
 	AUTH_START,
 	AUTH_SIGNIN_SUCCESS,
@@ -45,7 +46,7 @@ const authReducer = (state = initialState, action) => {
 		case AUTH_FAIL:
 			return authFail(state, action);
 		case AUTH_SIGNOUT_SUCCESS:
-			return authSignoutSuccess(state);
+			return authSignoutSuccess(initialState);
 		default:
 			return state;
 	}

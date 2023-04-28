@@ -13,7 +13,6 @@ import {
 	Tooltip,
 	Avatar,
 } from "@mui/material";
-import { authSignout } from "../redux/actions/userActions";
 import { Mail, Notifications, Lock, Menu } from "@mui/icons-material";
 import SignIn from "../pages/SignIn";
 import UserMenu from "./UserMenu";

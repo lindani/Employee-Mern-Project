@@ -59,7 +59,7 @@ const Home = () => {
 		<Container>
 			<Box
 				sx={{
-					boxShadow: 3,
+					boxShadow: 8,
 					borderRadius: 2,
 					px: 4,
 					py: 6,
@@ -72,6 +72,7 @@ const Home = () => {
 				<Typography component="h1" variant="h5" align="center">
 					Employees Infomation
 				</Typography>
+				<EmployeeTable />
 				<Button
 					variant="contained"
 					style={{ marginTop: 20 }}
@@ -166,19 +167,18 @@ const Home = () => {
 							onChange={handleInputChange}
 							required
 						/>
+						<Button
+							type="submit"
+							variant="contained"
+							sx={{ mt: 3, mb: 3 }}
+							size="large"
+							fullWidth
+							onClick={handleSubmit}
+						>
+							Submit
+						</Button>
 					</DialogContent>
-
-					<Button
-						type="submit"
-						variant="contained"
-						sx={{ mt: 3, mb: 3 }}
-						size="small"
-						onClick={handleSubmit}
-					>
-						Submit
-					</Button>
 				</Dialog>
-				<EmployeeTable />
 			</Box>
 		</Container>
 	);
