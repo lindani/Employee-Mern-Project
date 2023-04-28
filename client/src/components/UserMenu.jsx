@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Logout, Settings } from "@mui/icons-material";
 import { ListItemIcon, Menu, MenuItem } from "@mui/material";
@@ -30,11 +30,9 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 				</ListItemIcon>
 				Profile
 			</MenuItem>
-			<MenuItem
-				onClick={() => dispatch({ type: "UPDATE_USER", payload: null })}
-			>
+			<MenuItem onClick={handleSignOut}>
 				<ListItemIcon>
-					<Logout fontSize="small" onClick={handleSignOut} />
+					<Logout fontSize="small" />
 				</ListItemIcon>
 				Logout
 			</MenuItem>

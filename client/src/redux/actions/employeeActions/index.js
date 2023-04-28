@@ -9,7 +9,6 @@ import {
 } from "../actionTypes";
 
 const API_URL = "http://localhost:3002/api";
-const token = localStorage.getItem("token");
 
 export const employeeStart = () => async (dispatch) => {
 	dispatch({ type: EMPLOYEE_START });
@@ -41,6 +40,11 @@ export const addEmployee = (formData) => async (dispatch) => {
 };
 
 export const fetchEmployees = () => async (dispatch) => {
+	const token = localStorage.getItem("token");
+
+	if (!token) {
+		throw new Error("Access token not found");
+	}
 	try {
 		employeeStart();
 		const config = {
@@ -63,7 +67,8 @@ export const fetchEmployees = () => async (dispatch) => {
 };
 
 export const deleteEmployee = (employeeId) => async (dispatch) => {
-	console.log(employeeId);
+	const token = localStorage.getItem("token");
+
 	try {
 		const config = {
 			headers: {
@@ -90,6 +95,8 @@ export const deleteEmployee = (employeeId) => async (dispatch) => {
 
 export const updateEmployee = (formData) => async (dispatch) => {
 	console.log(formData._id);
+	const token = localStorage.getItem("token");
+
 	try {
 		const config = {
 			headers: {
