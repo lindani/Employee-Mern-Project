@@ -35,12 +35,6 @@ const EmployeeTable = () => {
 
 	const { loading, employees } = useSelector((state) => state.employee);
 
-	const randomColor = () => {
-		const hex = Math.floor(Math.random() * 0xffffff);
-		const color = "#" + hex.toString(16);
-		return color;
-	};
-
 	const handleDelete = (id) => {
 		dispatch(deleteEmployee(id));
 	};
@@ -68,13 +62,7 @@ const EmployeeTable = () => {
 								<TableCell>
 									{" "}
 									<IconButton>
-										<Avatar
-											src=""
-											alt={employee?.name}
-											style={{
-												backgroundColor: randomColor(),
-											}}
-										>
+										<Avatar src="" alt={employee?.name}>
 											{employee?.name?.charAt(0).toUpperCase()}
 										</Avatar>
 									</IconButton>
