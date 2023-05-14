@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
 	TextField,
@@ -18,6 +19,8 @@ import {
 	DialogContentText,
 	Button,
 } from "@mui/material";
+import Pagination from "@mui/lab/Pagination";
+import { makeStyles } from "@mui/styles";
 
 import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
 
@@ -30,10 +33,27 @@ import {
 	updateEmployee,
 } from "../redux/actions/employeeActions";
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			marginTop: theme.spacing(2),
+		},
+	},
+	pagination: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		margin: theme.spacing(2, 0),
+	},
+}));
+
 const EmployeeTable = () => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
-	const [selectedEmployee, setSelectedEmployee] = useState(null);
+	const [selectedEmployee, setSelectedEmployee] = useState();
+	const [currentPage, setCurrentPage] = useState(1);
+	const classes = useStyles();
+	const navigate = useNavigate();
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -45,7 +65,8 @@ const EmployeeTable = () => {
 
 	useEffect(() => {
 		dispatch(fetchEmployees());
-	}, [dispatch]);
+		navigate(`/?page=${currentPage}`);
+	}, [dispatch, currentPage]);
 
 	const { loading, employees } = useSelector((state) => state.employee);
 
@@ -61,6 +82,15 @@ const EmployeeTable = () => {
 
 	const handleUpdate = () => {
 		dispatch(updateEmployee(selectedEmployee));
+	};
+
+	const pageSize = 5;
+	const startIndex = (currentPage - 1) * pageSize;
+	const endIndex = startIndex + pageSize;
+	const visibleEmployees = employees?.slice(startIndex, endIndex);
+
+	const handlePageChange = (event, value) => {
+		setCurrentPage(value);
 	};
 
 	return (
@@ -81,7 +111,7 @@ const EmployeeTable = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{employees?.map((employee) => (
+						{visibleEmployees?.map((employee) => (
 							<TableRow key={employee._id}>
 								<TableCell>
 									{" "}
@@ -220,6 +250,17 @@ const EmployeeTable = () => {
 					</TableBody>
 				</Table>
 			)}
+			{
+				<div className={classes.pagination}>
+					<Pagination
+						count={Math.ceil(employees?.length / 10)}
+						page={currentPage}
+						onChange={handlePageChange}
+						shape="rounded"
+						size="large"
+					/>
+				</div>
+			}
 		</>
 	);
 };

@@ -103,7 +103,6 @@ const Home = () => {
 							label="Name"
 							type="text"
 							fullWidth
-							value={formData.name}
 							onChange={handleInputChange}
 							required
 						/>
@@ -113,7 +112,6 @@ const Home = () => {
 							label="Surname"
 							type="text"
 							fullWidth
-							value={formData.surname}
 							onChange={handleInputChange}
 							required
 						/>
@@ -123,7 +121,6 @@ const Home = () => {
 							label="Email"
 							type="email"
 							fullWidth
-							value={formData.email}
 							onChange={handleInputChange}
 							required
 						/>
@@ -133,7 +130,6 @@ const Home = () => {
 							label="Company"
 							type="text"
 							fullWidth
-							value={formData.company}
 							onChange={handleInputChange}
 							required
 						/>
@@ -143,7 +139,6 @@ const Home = () => {
 							label="Phone Number"
 							type="text"
 							fullWidth
-							value={formData.phone}
 							onChange={handleInputChange}
 							required
 						/>
@@ -153,7 +148,6 @@ const Home = () => {
 							label="Position"
 							type="text"
 							fullWidth
-							value={formData.position}
 							onChange={handleInputChange}
 							required
 						/>
@@ -163,7 +157,6 @@ const Home = () => {
 							label="Salary"
 							type="text"
 							fullWidth
-							value={formData.salary}
 							onChange={handleInputChange}
 							required
 						/>
