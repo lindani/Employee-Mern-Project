@@ -39,7 +39,6 @@ export const getEmployee = async (req, res, next) => {
 };
 
 export const updateEmployee = async (req, res, next) => {
-	console.log(req.body);
 	try {
 		const employee = await Employee.findById(req.params.id);
 		if (!employee) return createError(403, "Employee not found!");

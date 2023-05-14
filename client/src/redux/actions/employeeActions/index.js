@@ -94,7 +94,6 @@ export const deleteEmployee = (employeeId) => async (dispatch) => {
 };
 
 export const updateEmployee = (formData) => async (dispatch) => {
-	console.log(formData._id);
 	const token = localStorage.getItem("token");
 
 	try {

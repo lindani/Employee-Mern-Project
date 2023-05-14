@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+	TextField,
 	Table,
 	TableHead,
 	TableRow,
@@ -10,8 +11,15 @@ import {
 	IconButton,
 	Tooltip,
 	Avatar,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	DialogContentText,
+	Button,
 } from "@mui/material";
-import { DeleteOutlined, BorderColor } from "@mui/icons-material";
+
+import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
 
 import EmployeeDialogForm from "../components/EmployeeDialogForm";
 import LinearWithValueLabel from "../components/LinearProgressBar";
@@ -19,14 +27,20 @@ import LinearWithValueLabel from "../components/LinearProgressBar";
 import {
 	fetchEmployees,
 	deleteEmployee,
+	updateEmployee,
 } from "../redux/actions/employeeActions";
 
 const EmployeeTable = () => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-	const handleClickOpen = () => {
-		setOpen(true);
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setSelectedEmployee((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
 	};
 
 	useEffect(() => {
@@ -35,8 +49,18 @@ const EmployeeTable = () => {
 
 	const { loading, employees } = useSelector((state) => state.employee);
 
+	const handleOpen = (employee) => {
+		setOpen(true);
+		setSelectedEmployee(employee);
+	};
+	const handleClose = () => setOpen(false);
+
 	const handleDelete = (id) => {
 		dispatch(deleteEmployee(id));
+	};
+
+	const handleUpdate = () => {
+		dispatch(updateEmployee(selectedEmployee));
 	};
 
 	return (
@@ -77,11 +101,109 @@ const EmployeeTable = () => {
 										<IconButton
 											size="large"
 											color="inherit"
-											onClick={handleClickOpen}
+											onClick={() => handleOpen(employee)}
 										>
 											<BorderColor />
 										</IconButton>
 									</Tooltip>
+									<Dialog open={open} onClose={handleClose}>
+										<DialogTitle component="h1" variant="h5">
+											Employee Details{" "}
+											<IconButton
+												sx={{
+													position: "absolute",
+													top: 8,
+													right: 8,
+												}}
+												onClick={handleClose}
+											>
+												{" "}
+												<Close />
+											</IconButton>
+										</DialogTitle>
+										<DialogContent dividers>
+											<TextField
+												margin="dense"
+												name="name"
+												label="Name"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.name}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="surname"
+												label="Surname"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.surname}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="email"
+												label="Email"
+												type="email"
+												fullWidth
+												value={selectedEmployee?.email}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="company"
+												label="Company"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.company}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="phone"
+												label="Phone Number"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.phone}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="position"
+												label="Position"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.position}
+												onChange={handleInputChange}
+												required
+											/>
+											<TextField
+												margin="dense"
+												name="salary"
+												label="Salary"
+												type="text"
+												fullWidth
+												value={selectedEmployee?.salary}
+												onChange={handleInputChange}
+												required
+											/>
+											<Button
+												type="submit"
+												variant="contained"
+												sx={{ mt: 3, mb: 3 }}
+												size="large"
+												fullWidth
+												onClick={handleUpdate}
+											>
+												Submit
+											</Button>
+										</DialogContent>
+									</Dialog>
 									<Tooltip title="Delete Employee">
 										<IconButton
 											aria-label="Delete a Employee"
