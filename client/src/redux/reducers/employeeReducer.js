@@ -19,11 +19,13 @@ const employeeStart = (state, action) => ({
 
 const addEmployee = (state, action) => ({
 	...state,
+	loading: false,
 	employees: [...state.employees, action.payload],
 });
 
 const updateEmployee = (state, action) => ({
 	...state,
+	loading: false,
 	employees: state.employees.map((employee) =>
 		employee._id === action.payload._id ? action.payload : employee
 	),
@@ -32,6 +34,7 @@ const updateEmployee = (state, action) => ({
 const deleteEmployee = (state, action) => {
 	return {
 		...state,
+		loading: false,
 		employees: state.employees.filter(
 			(employee) => employee._id !== action.payload
 		),

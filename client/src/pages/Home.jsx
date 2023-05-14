@@ -44,14 +44,8 @@ const Home = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		dispatch(employeeStart());
 		dispatch(addEmployee(formData));
-		// dispatch(employeeStart());
-		// const { name, value } = event.target;
-		// setFormData((prevState) => ({
-		// 	...prevState,
-		// 	[name]: value,
-		// }));
-		// showSnackbar("success", "Todo added successfully.");
 		handleClose();
 	};
 

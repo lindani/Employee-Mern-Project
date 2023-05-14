@@ -18,7 +18,6 @@ export const addEmployee = (formData) => async (dispatch) => {
 	const token = localStorage.getItem("token");
 
 	try {
-		employeeStart();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
@@ -46,7 +45,6 @@ export const fetchEmployees = () => async (dispatch) => {
 		throw new Error("Access token not found");
 	}
 	try {
-		employeeStart();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",

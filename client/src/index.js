@@ -15,7 +15,7 @@ import { persistor, reducerStore } from "./redux/store";
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#006064",
+			main: "#388e3c",
 		},
 		secondary: {
 			main: "#e91e63",

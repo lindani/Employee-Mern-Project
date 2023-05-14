@@ -16,8 +16,8 @@ import {
 	DialogTitle,
 	DialogContent,
 	Button,
+	Pagination,
 } from "@mui/material";
-import Pagination from "@mui/lab/Pagination";
 import { makeStyles } from "@mui/styles";
 
 import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
@@ -25,6 +25,7 @@ import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
 import LinearWithValueLabel from "../components/LinearProgressBar";
 
 import {
+	employeeStart,
 	fetchEmployees,
 	deleteEmployee,
 	updateEmployee,
@@ -62,12 +63,12 @@ const EmployeeTable = () => {
 	};
 
 	useEffect(() => {
+		dispatch(employeeStart());
 		dispatch(fetchEmployees());
 		navigate(`/?page=${currentPage}`);
 	}, [dispatch, navigate, currentPage]);
 
 	const { loading, employees } = useSelector((state) => state.employee);
-
 	const handleOpen = (employee) => {
 		setOpen(true);
 		setSelectedEmployee(employee);
@@ -75,11 +76,13 @@ const EmployeeTable = () => {
 	const handleClose = () => setOpen(false);
 
 	const handleDelete = (id) => {
+		dispatch(employeeStart());
 		dispatch(deleteEmployee(id));
 	};
 
 	const handleUpdate = (event) => {
 		event.preventDefault();
+		dispatch(employeeStart());
 		dispatch(updateEmployee(selectedEmployee));
 		handleClose();
 	};

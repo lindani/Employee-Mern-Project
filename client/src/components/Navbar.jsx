@@ -46,7 +46,7 @@ const Navbar = () => {
 						noWrap
 						sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
 					>
-						Employee App
+						EmploApp
 					</Typography>
 					<Typography
 						variant="h6"
@@ -59,6 +59,7 @@ const Navbar = () => {
 					{!user ? (
 						<div>
 							<Button
+								size="large"
 								color="inherit"
 								startIcon={<Lock />}
 								onClick={handleClickOpen}

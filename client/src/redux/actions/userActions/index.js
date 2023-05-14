@@ -39,24 +39,16 @@ export const authSignup = (formData) => async (dispatch) => {
 	}
 };
 
-export const authSignin = createAsyncThunk(
-	"auth/signin",
-	async (data, { rejectWithValue, dispatch }) => {
-		console.log("haibo", data);
-		try {
-			const response = await apiConfig.post("/auth/signin", data);
-			const { token } = response.data;
-			localStorage.setItem("token", token);
-			return dispatch(authSuccess(response));
-		} catch (error) {
-			if (error.response && error.response.data.message) {
-				return rejectWithValue(error.response.data.message);
-			} else {
-				return rejectWithValue(error.message);
-			}
-		}
+export const authSignin = (data) => async (dispatch) => {
+	try {
+		const response = await apiConfig.post("/auth/signin", data);
+		const { token } = response.data;
+		localStorage.setItem("token", token);
+		return dispatch(authSuccess(response));
+	} catch (error) {
+		dispatch(authFail(error));
 	}
-);
+};
 
 export const authSignout = () => async (dispatch) => {
 	try {

@@ -13,7 +13,7 @@ import {
 
 import { Send } from "@mui/icons-material";
 
-import { authSignin } from "../redux/actions/userActions";
+import { authSignin, authStart } from "../redux/actions/userActions";
 
 const SignIn = ({ open, handleClose }) => {
 	const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const SignIn = ({ open, handleClose }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		dispatch(authStart());
 		dispatch(authSignin(formData));
 	};
 
