@@ -78,8 +78,10 @@ const EmployeeTable = () => {
 		dispatch(deleteEmployee(id));
 	};
 
-	const handleUpdate = () => {
+	const handleUpdate = (event) => {
+		event.preventDefault();
 		dispatch(updateEmployee(selectedEmployee));
+		handleClose();
 	};
 
 	const startIndex = (currentPage - 1) * pageSize;
@@ -250,7 +252,7 @@ const EmployeeTable = () => {
 			{
 				<div className={classes.pagination}>
 					<Pagination
-						count={Math.ceil(employees?.length / pageSize)}
+						count={Math.ceil(employees?.length / pageSize) || 0}
 						page={currentPage}
 						onChange={handlePageChange}
 						shape="rounded"
