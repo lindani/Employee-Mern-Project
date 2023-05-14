@@ -15,8 +15,6 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
-	DialogActions,
-	DialogContentText,
 	Button,
 } from "@mui/material";
 import Pagination from "@mui/lab/Pagination";
@@ -24,7 +22,6 @@ import { makeStyles } from "@mui/styles";
 
 import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
 
-import EmployeeDialogForm from "../components/EmployeeDialogForm";
 import LinearWithValueLabel from "../components/LinearProgressBar";
 
 import {
@@ -51,6 +48,7 @@ const EmployeeTable = () => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState();
+	const [pageSize, setPageSize] = useState(5);
 	const [currentPage, setCurrentPage] = useState(1);
 	const classes = useStyles();
 	const navigate = useNavigate();
@@ -66,7 +64,7 @@ const EmployeeTable = () => {
 	useEffect(() => {
 		dispatch(fetchEmployees());
 		navigate(`/?page=${currentPage}`);
-	}, [dispatch, currentPage]);
+	}, [dispatch, navigate, currentPage]);
 
 	const { loading, employees } = useSelector((state) => state.employee);
 
@@ -84,7 +82,6 @@ const EmployeeTable = () => {
 		dispatch(updateEmployee(selectedEmployee));
 	};
 
-	const pageSize = 5;
 	const startIndex = (currentPage - 1) * pageSize;
 	const endIndex = startIndex + pageSize;
 	const visibleEmployees = employees?.slice(startIndex, endIndex);
@@ -253,7 +250,7 @@ const EmployeeTable = () => {
 			{
 				<div className={classes.pagination}>
 					<Pagination
-						count={Math.ceil(employees?.length / 10)}
+						count={Math.ceil(employees?.length / pageSize)}
 						page={currentPage}
 						onChange={handlePageChange}
 						shape="rounded"
