@@ -1,16 +1,23 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 
 import { Grid, Typography, Button, Box } from "@mui/material";
-import LinearWithValueLabel from "../components/LinearProgressBar";
-import Navbar from "../components/Navbar";
+import SignUp from "./SignUp";
 
 import backgroundImage from "../assets/img/pexels-tom-fisk-2606532.jpg";
 
-const HeroSection = () => {
+const HeroPage = () => {
+	const [open, setOpen] = useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	return (
 		<>
-			<Navbar />
 			<Grid
 				container
 				justifyContent="center"
@@ -57,14 +64,16 @@ const HeroSection = () => {
 							align="center"
 							size="large"
 							sx={{ mt: 3 }}
+							onClick={handleClickOpen}
 						>
 							<Typography component="h1">Sign up for free</Typography>
 						</Button>
 					</Box>
 				</Grid>
 			</Grid>
+			<SignUp open={open} handleClose={handleClose} />
 		</>
 	);
 };
 
-export default HeroSection;
+export default HeroPage;

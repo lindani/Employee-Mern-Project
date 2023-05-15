@@ -1,7 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import apiConfig from "../apiConfig";
-// import { persistor } from "../../store";
 
 import {
 	AUTH_START,
@@ -28,7 +25,6 @@ export const authFail = (error) => ({
 });
 
 export const authSignup = (formData) => async (dispatch) => {
-	console.log("authSignup", formData);
 	try {
 		const response = await apiConfig.post("/auth/signup", formData);
 		const { token } = response.data;

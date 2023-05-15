@@ -13,14 +13,17 @@ import {
 
 import { Send } from "@mui/icons-material";
 
-import { authSignin, authStart } from "../redux/actions/userActions";
+import { authSignup, authStart } from "../redux/actions/userActions";
 
-const SignIn = ({ open, handleClose }) => {
+const SignUp = ({ open, handleClose }) => {
 	const dispatch = useDispatch();
 
 	const [formData, setFormData] = useState({
 		name: "",
+		email: "",
 		password: "",
+		confirmPassword: "",
+		profileImage: null,
 	});
 
 	const handleInputChange = (event) => {
@@ -34,14 +37,14 @@ const SignIn = ({ open, handleClose }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		dispatch(authStart());
-		dispatch(authSignin(formData));
+		dispatch(authSignup(formData));
 	};
 
 	return (
 		<>
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle component="h1" variant="h5">
-					SignIn{" "}
+					Signup{" "}
 					<IconButton
 						sx={{
 							position: "absolute",
@@ -62,18 +65,38 @@ const SignIn = ({ open, handleClose }) => {
 							label="Name"
 							type="text"
 							fullWidth
-							value={formData?.name}
+							value={formData.name}
 							onChange={handleInputChange}
 							required
 						/>
-
+						<TextField
+							margin="dense"
+							name="email"
+							label="Email"
+							type="email"
+							fullWidth
+							value={formData.email}
+							onChange={handleInputChange}
+							required
+						/>
 						<TextField
 							margin="dense"
 							name="password"
 							label="Password"
 							type="password"
 							fullWidth
-							value={formData?.password}
+							value={formData.password}
+							onChange={handleInputChange}
+							required
+						/>
+
+						<TextField
+							margin="dense"
+							name="confirmPassword"
+							label="Confirm Password"
+							type="password"
+							fullWidth
+							value={formData.confirmPassword}
 							onChange={handleInputChange}
 							required
 						/>
@@ -98,4 +121,4 @@ const SignIn = ({ open, handleClose }) => {
 	);
 };
 
-export default SignIn;
+export default SignUp;
