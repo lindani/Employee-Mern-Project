@@ -9,7 +9,6 @@ This is a MERN (MongoDB, Express.js, React, Node.js) application that provides C
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
