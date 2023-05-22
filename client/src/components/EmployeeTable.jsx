@@ -21,8 +21,11 @@ import {
 import { makeStyles } from "@mui/styles";
 
 import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 import LinearWithValueLabel from "../components/LinearProgressBar";
+import EmployeeDialogForm from "../components/EmployeeDialogForm";
 
 import {
 	employeeStart,
@@ -44,23 +47,29 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(2, 0),
 	},
 }));
+const phoneRegExp =
+	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const employeeSchema = yup.object().shape({
+	name: yup.string().required("Name is required"),
+	surname: yup.string().required("Surname is required"),
+
+	email: yup.string().email("Must be a valid email"),
+	company: yup.string().required("Company is required"),
+	phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+	position: yup.string().required("Position is required"),
+	salary: yup.string().required("Salary is required"),
+});
 
 const EmployeeTable = () => {
 	const dispatch = useDispatch();
+
 	const [open, setOpen] = useState(false);
-	const [selectedEmployee, setSelectedEmployee] = useState();
-	const [pageSize, setPageSize] = useState(5);
+	const [selectedEmployee, setSelectedEmployee] = useState(null);
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const classes = useStyles();
 	const navigate = useNavigate();
-
-	const handleInputChange = (event) => {
-		const { name, value } = event.target;
-		setSelectedEmployee((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
 
 	useEffect(() => {
 		dispatch(employeeStart());
@@ -69,24 +78,26 @@ const EmployeeTable = () => {
 	}, [dispatch, navigate, currentPage]);
 
 	const { loading, employees } = useSelector((state) => state.employee);
-	const handleOpen = (employee) => {
-		setOpen(true);
-		setSelectedEmployee(employee);
+
+	const handleClose = () => {
+		setSelectedEmployee(null);
+		setOpen(false);
 	};
-	const handleClose = () => setOpen(false);
 
 	const handleDelete = (id) => {
-		dispatch(employeeStart());
-		dispatch(deleteEmployee(id));
+		if (window.confirm("Are you sure you want to delete this employee?")) {
+			dispatch(deleteEmployee(id));
+			dispatch(employeeStart());
+		}
 	};
 
-	const handleUpdate = (event) => {
-		event.preventDefault();
+	const handleFormSubmit = (values) => {
 		dispatch(employeeStart());
-		dispatch(updateEmployee(selectedEmployee));
+		dispatch(updateEmployee(values));
 		handleClose();
 	};
 
+	const pageSize = 5;
 	const startIndex = (currentPage - 1) * pageSize;
 	const endIndex = startIndex + pageSize;
 	const visibleEmployees = employees?.slice(startIndex, endIndex);
@@ -95,6 +106,11 @@ const EmployeeTable = () => {
 		setCurrentPage(value);
 	};
 
+	const handleOpen = (employee) => {
+		setSelectedEmployee(employee);
+
+		setOpen(true);
+	};
 	return (
 		<>
 			{loading ? (
@@ -114,7 +130,7 @@ const EmployeeTable = () => {
 					</TableHead>
 					<TableBody>
 						{visibleEmployees?.map((employee) => (
-							<TableRow key={employee._id}>
+							<TableRow key={employee?._id}>
 								<TableCell>
 									{" "}
 									<IconButton>
@@ -129,7 +145,7 @@ const EmployeeTable = () => {
 								<TableCell>{employee.position}</TableCell>
 								<TableCell>{employee.company}</TableCell>
 								<TableCell>
-									<Tooltip title="Edit Employee">
+									<Tooltip title="Edit employee">
 										<IconButton
 											size="large"
 											color="inherit"
@@ -138,110 +154,13 @@ const EmployeeTable = () => {
 											<BorderColor />
 										</IconButton>
 									</Tooltip>
-									<Dialog open={open} onClose={handleClose}>
-										<DialogTitle component="h1" variant="h5">
-											Employee Details{" "}
-											<IconButton
-												sx={{
-													position: "absolute",
-													top: 8,
-													right: 8,
-												}}
-												onClick={handleClose}
-											>
-												{" "}
-												<Close />
-											</IconButton>
-										</DialogTitle>
-										<DialogContent dividers>
-											<TextField
-												margin="dense"
-												name="name"
-												label="Name"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.name}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="surname"
-												label="Surname"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.surname}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="email"
-												label="Email"
-												type="email"
-												fullWidth
-												value={selectedEmployee?.email}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="company"
-												label="Company"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.company}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="phone"
-												label="Phone Number"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.phone}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="position"
-												label="Position"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.position}
-												onChange={handleInputChange}
-												required
-											/>
-											<TextField
-												margin="dense"
-												name="salary"
-												label="Salary"
-												type="text"
-												fullWidth
-												value={selectedEmployee?.salary}
-												onChange={handleInputChange}
-												required
-											/>
-											<Button
-												type="submit"
-												variant="contained"
-												sx={{ mt: 3, mb: 3 }}
-												size="large"
-												fullWidth
-												onClick={handleUpdate}
-											>
-												Submit
-											</Button>
-										</DialogContent>
-									</Dialog>
+
 									<Tooltip title="Delete Employee">
 										<IconButton
 											aria-label="Delete a Employee"
 											size="large"
 											color="inherit"
-											onClick={() => handleDelete(employee._id)}
+											onClick={() => handleDelete(employee?._id)}
 										>
 											<DeleteOutlined />
 										</IconButton>
@@ -252,6 +171,13 @@ const EmployeeTable = () => {
 					</TableBody>
 				</Table>
 			)}
+			{
+				<EmployeeDialogForm
+					open={open}
+					handleClose={handleClose}
+					initialValues={selectedEmployee}
+				/>
+			}
 			{
 				<div className={classes.pagination}>
 					<Pagination

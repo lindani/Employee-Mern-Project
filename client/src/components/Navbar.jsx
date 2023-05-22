@@ -14,7 +14,7 @@ import {
 	Avatar,
 } from "@mui/material";
 import { Mail, Notifications, Lock, Menu } from "@mui/icons-material";
-import SignIn from "../pages/SignIn";
+import AuthForm from "./AuthForm";
 import UserMenu from "./UserMenu";
 
 const Navbar = () => {
@@ -66,7 +66,11 @@ const Navbar = () => {
 							>
 								Login
 							</Button>
-							<SignIn open={open} handleClose={handleClose} />
+							<AuthForm
+								open={open}
+								handleClose={handleClose}
+								authType="signin"
+							/>
 						</div>
 					) : (
 						<Box>

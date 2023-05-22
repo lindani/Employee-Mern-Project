@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import HeroPage from "./pages/HeroPage";
+import HomePage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ function App() {
 			<BrowserRouter>
 				<Navbar />
 				<Routes>
-					<Route path="/" element={payload ? <Home /> : <HeroPage />} />
+					<Route path="/" element={payload ? <HomePage /> : <LandingPage />} />
 				</Routes>
 			</BrowserRouter>
 		</Container>

@@ -11,6 +11,11 @@ export const signup = async function (req, res, next) {
 		if (!name || !email || !password || !confirmPassword) {
 			return next(createError(400, "Please fill all fields."));
 		}
+		if (password !== confirmPassword) {
+			return next(
+				createError(404, "Password and confirm password do not match")
+			);
+		}
 
 		const existingUser = await User.findOne({ name });
 		if (existingUser) {
