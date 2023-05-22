@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
 import { Grid, Typography, Button, Box } from "@mui/material";
-import SignUp from "./SignUp";
+// import SignUp from "./SignUp";
+import AuthForm from "../components/AuthForm";
 
 import backgroundImage from "../assets/img/pexels-tom-fisk-2606532.jpg";
 
-const HeroPage = () => {
+const LandingPage = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleClickOpen = () => {
@@ -37,8 +38,9 @@ const HeroPage = () => {
 						component="h1"
 						align="center"
 						color="white"
+						fontWeight="400"
 						sx={{
-							font: "bold",
+							mb: "1.5rem",
 						}}
 						gutterBottom
 					>
@@ -71,9 +73,9 @@ const HeroPage = () => {
 					</Box>
 				</Grid>
 			</Grid>
-			<SignUp open={open} handleClose={handleClose} />
+			<AuthForm open={open} handleClose={handleClose} authType="signup" />
 		</>
 	);
 };
 
-export default HeroPage;
+export default LandingPage;

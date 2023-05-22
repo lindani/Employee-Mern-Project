@@ -19,16 +19,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.set("trust proxy", 1); // trust first proxy
-// app.use(
-// 	session({
-// 		secret: "keyboard cat",
-// 		resave: false,
-// 		saveUninitialized: true,
-// 		cookie: { secure: true },
-// 	})
-// );
-
-// app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000 } }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,17 +30,12 @@ const PORT = process.env.PORT || 6001;
 
 const connect = () => {
 	mongoose
-		.connect(process.env.MONGO_URL, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		})
+		.connect(process.env.MONGO_URL)
 		.then(() => {
-			console.log("Connect to DB");
+			console.log("MongoDB database connection established successfully");
 		})
 		.catch((error) => console.log(`${error} did not connect`));
 };
-
-// app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
