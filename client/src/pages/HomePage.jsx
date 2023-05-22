@@ -36,15 +36,6 @@ const employeeSchema = yup.object().shape({
 	salary: yup.string().required("Salary is required"),
 });
 
-const initialValues = {
-	name: "",
-	surname: "",
-	email: "",
-	company: "",
-	phone: "",
-	position: "",
-	salary: "",
-};
 const HomePage = () => {
 	const dispatch = useDispatch();
 	const [employeeError, setEmployeeError] = useState("");

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
-	TextField,
 	Table,
 	TableHead,
 	TableRow,
@@ -12,17 +11,11 @@ import {
 	IconButton,
 	Tooltip,
 	Avatar,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-	Button,
 	Pagination,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import { DeleteOutlined, BorderColor, Close } from "@mui/icons-material";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { DeleteOutlined, BorderColor } from "@mui/icons-material";
 
 import LinearWithValueLabel from "../components/LinearProgressBar";
 import EmployeeDialogForm from "../components/EmployeeDialogForm";
@@ -31,7 +24,6 @@ import {
 	employeeStart,
 	fetchEmployees,
 	deleteEmployee,
-	updateEmployee,
 } from "../redux/actions/employeeActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,19 +39,6 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(2, 0),
 	},
 }));
-const phoneRegExp =
-	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-const employeeSchema = yup.object().shape({
-	name: yup.string().required("Name is required"),
-	surname: yup.string().required("Surname is required"),
-
-	email: yup.string().email("Must be a valid email"),
-	company: yup.string().required("Company is required"),
-	phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
-	position: yup.string().required("Position is required"),
-	salary: yup.string().required("Salary is required"),
-});
 
 const EmployeeTable = () => {
 	const dispatch = useDispatch();
@@ -89,12 +68,6 @@ const EmployeeTable = () => {
 			dispatch(deleteEmployee(id));
 			dispatch(employeeStart());
 		}
-	};
-
-	const handleFormSubmit = (values) => {
-		dispatch(employeeStart());
-		dispatch(updateEmployee(values));
-		handleClose();
 	};
 
 	const pageSize = 5;

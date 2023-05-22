@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Close } from "@mui/icons-material";
 import {
@@ -7,12 +7,10 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
-	DialogActions,
 	IconButton,
 	Typography,
 } from "@mui/material";
 
-import { Send } from "@mui/icons-material";
 import { Formik } from "formik";
 import * as yup from "yup";
 
