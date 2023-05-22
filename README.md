@@ -62,4 +62,4 @@ Contributions to this project are welcome. If you find any issues or have any id
 
 ## Demo
 
-[Emplo-App](https://emplo-app.netlify.app/?page=1)
+[Emplo-App](https://emplo-app.netlify.app/)
